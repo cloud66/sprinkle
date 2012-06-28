@@ -69,9 +69,8 @@ module Sprinkle
 
       def to_s; name; end
 
-      def process(deployment, session)
+      def process(deployment)
         all = []
-        @session = session
 
         cloud_info "--> Cloud hierarchy for policy #{@name}"
 
@@ -90,14 +89,14 @@ module Sprinkle
         end
 
         normalize(all) do |package|
-          package.process(deployment, @roles, session)
+          package.process(deployment, @roles)
         end
       end
 
       private
 
         def cloud_info(message)
-          logger.info(@session, message) if Sprinkle::OPTIONS[:cloud] or logger.debug?
+          logger.info(message) if Sprinkle::OPTIONS[:cloud] or logger.debug?
         end
 
         def select_package(name, packages)

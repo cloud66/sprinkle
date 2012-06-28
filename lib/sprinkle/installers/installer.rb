@@ -62,17 +62,16 @@ module Sprinkle
         @post[stage] += [yield] if block_given?
       end
 
-      def process(roles, session) #:nodoc:
-        @session = session
+      def process(roles) #:nodoc:
         assert_delivery
 
         if logger.debug?
           sequence = install_sequence; sequence = sequence.join('; ') if sequence.is_a? Array
-          logger.debug @session, "#{@package.name} install sequence: #{sequence} for roles: #{roles}\n"
+          logger.debug "#{@package.name} install sequence: #{sequence} for roles: #{roles}\n"
         end
 
         unless Sprinkle::OPTIONS[:testing]
-          logger.info @session, "--> Installing #{package.name} for roles: #{roles}"
+          logger.info  "--> Installing #{package.name} for roles: #{roles}"
           @delivery.process(@package.name, install_sequence, roles)
         end
       end

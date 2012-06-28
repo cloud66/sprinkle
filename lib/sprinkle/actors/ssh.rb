@@ -30,7 +30,7 @@ module Sprinkle
       def process(name, commands, roles, suppress_and_return_failures = false)
         return process_with_gateway(name, commands, roles) if gateway_defined?
         r = process_direct(name, commands, roles)
-        logger.debug @session, green "process returning #{r}"
+        logger.debug green "process returning #{r}"
         return r
       end
 
@@ -79,7 +79,7 @@ module Sprinkle
         
         def execute_on_host(commands, host, gateway = nil)
           res = nil
-          logger.debug(@session, blue "executing #{commands.inspect} on #{host}.")
+          logger.debug(blue "executing #{commands.inspect} on #{host}.")
           if gateway # SSH connection via gateway
             gateway.ssh(host, @options[:user]) do |ssh|
               res = execute_on_connection(commands, ssh)
@@ -94,34 +94,34 @@ module Sprinkle
           res.detect{|x| x!=0}.nil?
         end
 
-        def execute_on_connection(commands, session)
+        def execute_on_connection(commands)
           res = []
           Array(commands).each do |cmd|
             session.open_channel do |channel|
               channel.on_data do |ch, data|
-                logger.debug @session, yellow("stdout said-->\n#{data}\n")
+                logger.debug yellow("stdout said-->\n#{data}\n")
               end
               channel.on_extended_data do |ch, type, data|
                 next unless type == 1  # only handle stderr
-                logger.debug @session, red("stderr said -->\n#{data}\n")
+                logger.debug red("stderr said -->\n#{data}\n")
               end
 
               channel.on_request("exit-status") do |ch, data|
                 exit_code = data.read_long
                 if exit_code == 0
-                  logger.debug(@session, green 'success')
+                  logger.debug(green 'success')
                 else
-                  logger.debug(@session, red('failed (%d).'%exit_code))
+                  logger.debug(red('failed (%d).'%exit_code))
                 end
                 res << exit_code
               end
 
               channel.on_request("exit-signal") do |ch, data|
-                logger.debug @session, red("#{cmd} was signaled!: #{data.read_long}")
+                logger.debug red("#{cmd} was signaled!: #{data.read_long}")
               end
 
               channel.exec cmd  do  |ch, status|
-                logger.error(@session, "couldn't run remote command #{cmd}") unless status
+                logger.error("couldn't run remote command #{cmd}") unless status
               end
             end
           end

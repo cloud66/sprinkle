@@ -63,10 +63,9 @@ module Sprinkle
         !!@defaults[sym]
       end
 
-      def process(session) #:nodoc:
-        @session = session
+      def process #:nodoc:
         POLICIES.each do |policy|
-          policy.process(self, session)
+          policy.process(self)
         end
       end
     end

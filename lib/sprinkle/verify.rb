@@ -81,18 +81,17 @@ module Sprinkle
       self.instance_eval(&block)
     end
     
-    def process(roles, session, pre = false) #:nodoc:
-      @session = session
+    def process(roles, pre = false) #:nodoc:
       assert_delivery
       
       description = @description.empty? ? @package.name : @description
       
       if logger.debug?
-        logger.debug @session, "#{@package.name}#{description} verification sequence: #{@commands.join('; ')} for roles: #{roles}\n"
+        logger.debug "#{@package.name}#{description} verification sequence: #{@commands.join('; ')} for roles: #{roles}\n"
       end
       
       unless Sprinkle::OPTIONS[:testing]
-        logger.info @session, "#{" " * @options[:padding]}--> Verifying #{description}..."
+        logger.info  "#{" " * @options[:padding]}--> Verifying #{description}..."
         
         unless @delivery.process(@package.name, @commands, roles, true)
           # Verification failed, halt sprinkling gracefully.

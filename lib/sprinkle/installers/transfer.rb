@@ -127,14 +127,14 @@ module Sprinkle
         assert_delivery
 
         if logger.debug?
-          logger.debug @session, "transfer: #{@source} -> #{@destination} for roles: #{roles}\n"
+          logger.debug "transfer: #{@source} -> #{@destination} for roles: #{roles}\n"
         end
 
         unless Sprinkle::OPTIONS[:testing]
           pre = pre_commands(:install)
           unless pre.empty?
             sequence = pre; sequence = sequence.join('; ') if sequence.is_a? Array
-            logger.info @session, "#{@package.name} pre-transfer commands: #{sequence} for roles: #{roles}\n"
+            logger.info  "#{@package.name} pre-transfer commands: #{sequence} for roles: #{roles}\n"
             @delivery.process @package.name, [pre].flatten, roles
           end
 
@@ -156,19 +156,19 @@ module Sprinkle
 
             tempfile = render_template_file(@source, context, @package.name)
             sourcepath = tempfile.path
-            logger.info @session, "Rendering template #{@source} to temporary file #{sourcepath}"
+            logger.info  "Rendering template #{@source} to temporary file #{sourcepath}"
             recursive = false
           else
             sourcepath = @source
           end
 
-          logger.info @session, "--> Transferring #{sourcepath} to #{@destination} for roles: #{roles}"
+          logger.info  "--> Transferring #{sourcepath} to #{@destination} for roles: #{roles}"
           @delivery.transfer(@package.name, sourcepath, @destination, roles, recursive)
 
           post = post_commands(:install)
           unless post.empty?
             sequence = post; sequence = sequence.join('; ') if sequence.is_a? Array
-            logger.info @session, "#{@package.name} post-transfer commands: #{sequence} for roles: #{roles}\n"
+            logger.info  "#{@package.name} post-transfer commands: #{sequence} for roles: #{roles}\n"
             @delivery.process @package.name, [post].flatten, roles
           end
         end

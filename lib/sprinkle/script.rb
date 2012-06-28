@@ -10,15 +10,14 @@ module Sprinkle
     # FIXME: Improve documentation, possibly notify user how to tell
     # if a sprinkling failed.
     #++
-    def self.sprinkle(script, session, filename = '__SCRIPT__')
-      @session = session
+    def self.sprinkle(script, filename = '__SCRIPT__')
       powder = new
       powder.instance_eval script, filename
-      powder.sprinkle(session)
+      powder.sprinkle
     end
 
     def sprinkle #:nodoc:
-      @deployment.process(@session) if @deployment
+      @deployment.process if @deployment
     end
   end
 end
