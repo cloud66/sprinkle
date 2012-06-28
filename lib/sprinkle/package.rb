@@ -227,7 +227,9 @@ module Sprinkle
         @installers << Sprinkle::Installers::Pacman.new(self, *names, &block)
       end
       
-      def process(deployment, roles)
+      def process(deployment, roles, session)
+        @session = session
+
         return if meta_package?
         
         # Run a pre-test to see if the software is already installed. If so,
@@ -236,7 +238,7 @@ module Sprinkle
           begin
             process_verifications(deployment, roles, true)
             
-            logger.info "--> #{self.name} already installed for roles: #{roles}"
+            logger.info @session, "--> #{self.name} already installed for roles: #{roles}"
             return
           rescue Sprinkle::VerificationFailed => e
             # Continue
@@ -245,7 +247,7 @@ module Sprinkle
 
         @installers.each do |installer|
           installer.defaults(deployment)
-          installer.process(roles)
+          installer.process(roles, session)
         end
         
         process_verifications(deployment, roles)
@@ -255,14 +257,14 @@ module Sprinkle
         return if @verifications.blank?
         
         if pre
-          logger.info "--> Checking if #{self.name} is already installed for roles: #{roles}"
+          logger.info @session, "--> Checking if #{self.name} is already installed for roles: #{roles}"
         else
-          logger.info "--> Verifying #{self.name} was properly installed for roles: #{roles}"
+          logger.info @session, "--> Verifying #{self.name} was properly installed for roles: #{roles}"
         end
         
         @verifications.each do |v|
           v.defaults(deployment)
-          v.process(roles)
+          v.process(roles, session)
         end
       end
 

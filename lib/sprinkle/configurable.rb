@@ -5,7 +5,8 @@ module Sprinkle
   module Configurable #:nodoc:
     attr_accessor :delivery
     
-    def defaults(deployment)
+    def defaults(deployment, session)
+      @session = session
       defaults = deployment.defaults[self.class.name.split(/::/).last.downcase.to_sym]
       self.instance_eval(&defaults) if defaults
       @delivery = deployment.style
