@@ -63,9 +63,10 @@ module Sprinkle
         !!@defaults[sym]
       end
 
-      def process #:nodoc:
+      def process(logger) #:nodoc:
+        @logger = logger
         POLICIES.each do |policy|
-          policy.process(self)
+          policy.process(self, logger)
         end
       end
     end

@@ -78,7 +78,8 @@ def verbosity(options)
 end
 
 def log_level(options)
-  Object.logger.level = ActiveSupport::BufferedLogger::Severity::DEBUG if options[:verbose]
+  @logger = Logger.new($stdout)
+  @logger.level = ActiveSupport::BufferedLogger::Severity::DEBUG if options[:verbose]
 end
 
 require File.dirname(__FILE__) + '/../lib/sprinkle'
@@ -92,4 +93,4 @@ powder_cloud(OPTIONS)
 log_level(OPTIONS)
 verbosity(OPTIONS)
 
-Sprinkle::Script.sprinkle File.read(powder), powder
+Sprinkle::Script.sprinkle(File.read(powder), @logger, powder)
