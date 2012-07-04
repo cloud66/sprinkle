@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.executables = ["sprinkle"]
   s.extra_rdoc_files = [
     "README.markdown",
-    "TODO"
   ]
   s.files = [
     "CREDITS",
