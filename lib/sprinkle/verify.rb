@@ -94,7 +94,7 @@ module Sprinkle
       unless Sprinkle::OPTIONS[:testing]
         @logger.info  "#{" " * @options[:padding]}--> Verifying #{description}..."
         
-        unless @delivery.process(@package.name, @commands, roles, true)
+        unless @delivery.process(@package.name, @commands, roles, @logger, true)
           # Verification failed, halt sprinkling gracefully.
           raise Sprinkle::VerificationFailed.new(@package, description)
         end

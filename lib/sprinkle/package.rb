@@ -247,7 +247,7 @@ module Sprinkle
 
         @installers.each do |installer|
           installer.defaults(deployment)
-          installer.process(roles)
+          installer.process(roles, logger)
         end
         
         process_verifications(deployment, roles)

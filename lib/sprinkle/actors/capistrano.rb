@@ -57,7 +57,9 @@ module Sprinkle
         @loaded_recipes << script
       end
 
-      def process(name, commands, roles, suppress_and_return_failures = false) #:nodoc:
+      def process(name, commands, roles, logger, suppress_and_return_failures = false) #:nodoc:
+        @logger = logger
+        @config.logger = logger
         define_task(name, roles) do
           via = fetch(:run_method, :sudo)
           commands.each do |command|
