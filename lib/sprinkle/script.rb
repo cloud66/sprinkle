@@ -4,6 +4,10 @@ module Sprinkle
   # Sprinkle::Script gives you a way to programatically run a given
   # sprinkle script. 
   class Script
+    Dir[File.dirname(__FILE__) + '/sprinkle/extensions/*.rb'].each { |e| require e }
+    # Load up the verifiers so they can register themselves
+    Dir[File.dirname(__FILE__) + '/sprinkle/verifiers/*.rb'].each { |e| require e }
+
     include Sprinkle::Package
     include Sprinkle::Deployment
     include Sprinkle::Policy
