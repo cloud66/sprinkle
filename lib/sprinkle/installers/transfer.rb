@@ -121,10 +121,12 @@ module Sprinkle
         template = File.read(path)
         tempfile = render_template(template, context, @package.name)
         tempfile
+        
       end
 
-      def process(roles) #:nodoc:
+      def process(roles, logger) #:nodoc:
         assert_delivery
+        @logger = logger
 
         if @logger.debug?
           @logger.debug "transfer: #{@source} -> #{@destination} for roles: #{roles}\n"
