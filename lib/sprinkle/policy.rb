@@ -73,7 +73,7 @@ module Sprinkle
         @logger = logger
         all = []
 
-        cloud_info "--> Cloud hierarchy for policy #{@name}"
+        cloud_info "Package hierarchy for policy #{@name}"
 
         @packages.each do |p|
           cloud_info "\nPolicy #{@name} requires package #{p}"
@@ -118,7 +118,7 @@ module Sprinkle
 
         def normalize(all, &block)
           all = all.flatten.uniq
-          cloud_info "\n--> Normalized installation order for all packages: #{all.collect(&:name).join(', ')}"
+          cloud_info "\nNormalized installation order for all packages: #{all.collect(&:name).join(', ')}"
           all.each &block
         end
     end

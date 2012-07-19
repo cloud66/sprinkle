@@ -238,7 +238,7 @@ module Sprinkle
           begin
             process_verifications(deployment, roles, true)
             
-            @logger.info  "--> #{self.name} already installed for roles: #{roles}"
+            @logger.info  "#{self.name} already installed for roles: #{roles}"
             return
           rescue Sprinkle::VerificationFailed => e
             # Continue
@@ -257,9 +257,9 @@ module Sprinkle
         return if @verifications.blank?
         
         if pre
-          @logger.info  "--> Checking if #{self.name} is already installed for roles: #{roles}"
+          @logger.info  "Checking if #{self.name} is already installed for roles: #{roles}"
         else
-          @logger.info  "--> Verifying #{self.name} was properly installed for roles: #{roles}"
+          @logger.info  "Verifying #{self.name} was properly installed for roles: #{roles}"
         end
         
         @verifications.each do |v|

@@ -72,7 +72,7 @@ module Sprinkle
         end
 
         unless Sprinkle::OPTIONS[:testing]
-          @logger.info  "--> Installing #{package.name} for roles: #{roles}"
+          @logger.info  "Installing #{package.name} for roles: #{roles}"
           @delivery.process(@package.name, install_sequence, roles, @logger)
         end
       end
