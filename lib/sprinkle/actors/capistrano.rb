@@ -59,7 +59,10 @@ module Sprinkle
 
       def process(name, commands, roles, logger, suppress_and_return_failures = false) #:nodoc:
         @logger = logger
-        @config.logger = logger
+        # note: this is to deal with the crazy way capistrano deals with logs:
+        # first of all everything is info. more strangely, the severity order in capistrano logger is in reverse to Rails (and pretty much everything else!)
+        @config.logger = logger.clone("#{logger.collection}:capistrano")
+        @config.logger.level = 6
         define_task(name, roles) do
           via = fetch(:run_method, :sudo)
           commands.each do |command|
