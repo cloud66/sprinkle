@@ -22,7 +22,7 @@ module Sprinkle
         if file.nil?
           @commands << "test -L #{symlink}"
         else
-          @commands << "test '#{file}' = `readlink #{symlink}`"
+          @commands << "[ -n \"`readlink #{symlink} 2> /dev/null | fgrep -i -e \\\"#{file}\\\"`\" ]"
         end
       end
     end
