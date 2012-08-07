@@ -46,6 +46,7 @@ module Sprinkle
     # used on.
     def policy(name, options = {}, &block)
       p = Policy.new(name, options, &block)
+      POLICIES.clear
       POLICIES << p
       p
     end
