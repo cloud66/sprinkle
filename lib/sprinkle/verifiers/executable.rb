@@ -37,16 +37,28 @@ module Sprinkle
       # defaults to "-v").
       def has_executable_with_version(path, version, get_version = '-v')
         if path.include?('/')
-          @commands << "[ -x #{path} -a -n \"`#{path} #{get_version} 2>&1 | egrep -e \\\"#{version}\\\"`\" ]"
+          @commands << "[ -x #{path} -a -n \"`#{path} #{get_version} 2>&1 | grep -E -i -e \\\"#{version}\\\"`\" ]"
         else
-          @commands << "[ -n \"`echo \\`which #{path}\\``\" -a -n \"`\\`which #{path}\\` #{get_version} 2>&1 | egrep -e \\\"#{version}\\\"`\" ]"
+          @commands << "[ -n \"`echo \\`which #{path}\\``\" -a -n \"`\\`which #{path}\\` #{get_version} 2>&1 | grep -E -i -e \\\"#{version}\\\"`\" ]"
+        end
+      end
+
+      # Same as has_executable but with checking for e certain version number in the list of supplied versions.
+      # Last option is the parameter to append for getting the version (which
+      # defaults to "-v").
+      def has_executable_with_versions(path, versions, get_version = '-v')
+        versions_lookup = versions.join('|')
+        if path.include?('/')
+          @commands << "[ -x #{path} -a -n \"`#{path} #{get_version} 2>&1 | grep -E -i -e \\\"#{versions_lookup}\\\"`\" ]"
+        else
+          @commands << "[ -n \"`echo \\`which #{path}\\``\" -a -n \"`\\`which #{path}\\` #{get_version} 2>&1 | grep -E -i -e \\\"#{versions_lookup}\\\"`\" ]"
         end
       end
 
       # Same as has_executable but checking output of a certain command
       # with grep.
       def has_version_in_grep(cmd, version)
-        @commands << "[ -n \"`#{cmd} 2> /dev/null | egrep -e \\\"#{version}\\\"`\" ]"
+        @commands << "[ -n \"`#{cmd} 2> /dev/null | grep -E -i -e \\\"#{version}\\\"`\" ]"
       end
     end
   end
