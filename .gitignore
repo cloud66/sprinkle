@@ -4,3 +4,6 @@ pkg
 .idea
 .*.swp
 coverage/*
+
+/sprinkle.sublime-project
+/sprinkle.sublime-workspace

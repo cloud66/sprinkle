@@ -136,7 +136,7 @@ module Sprinkle
           pre = pre_commands(:install)
           unless pre.empty?
             sequence = pre; sequence = sequence.join('; ') if sequence.is_a? Array
-            @logger.info  "#{@package.name} pre-transfer commands: #{sequence} for roles: #{roles}\n"
+            @logger.debug  "#{@package.name} pre-transfer commands: #{sequence} for roles: #{roles}\n"
             @delivery.process(@package.name, [pre].flatten, roles, @logger)
           end
 
@@ -164,13 +164,13 @@ module Sprinkle
             sourcepath = @source
           end
 
-          @logger.info  "--> Transferring #{sourcepath} to #{@destination} for roles: #{roles}"
+          @logger.info  "Transferring #{sourcepath} to #{@destination} for roles: #{roles}"
           @delivery.transfer(@package.name, sourcepath, @destination, roles, recursive)
 
           post = post_commands(:install)
           unless post.empty?
             sequence = post; sequence = sequence.join('; ') if sequence.is_a? Array
-            @logger.info  "#{@package.name} post-transfer commands: #{sequence} for roles: #{roles}\n"
+            @logger.debug  "#{@package.name} post-transfer commands: #{sequence} for roles: #{roles}\n"
             @delivery.process(@package.name, [post].flatten, roles, @logger)
           end
         end
