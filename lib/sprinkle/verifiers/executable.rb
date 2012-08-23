@@ -57,8 +57,12 @@ module Sprinkle
 
       # Same as has_executable but checking output of a certain command
       # with grep.
-      def has_version_in_grep(cmd, version)
-        @commands << "[ -n \"`#{cmd} 2> /dev/null | grep -E -i -e \\\"#{version}\\\"`\" ]"
+      def has_version_in_grep(cmd, version, sudo = true)
+        if sudo
+          @commands << "[ -n \"`#{cmd} 2> /dev/null | grep -E -i -e \\\"#{version}\\\"`\" ]"
+        else
+          @commands << "[ -n \"true; `#{cmd} 2> /dev/null | grep -E -i -e \\\"#{version}\\\"`\" ]"
+        end
       end
     end
   end
