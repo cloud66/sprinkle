@@ -9,11 +9,11 @@ module Sprinkle
 			end
 			
       def process(name, commands, roles, logger, suppress_and_return_failures = false) #:nodoc:
-				# nop
+				return true
 			end
 			
       def transfer(name, source, destination, roles, recursive = true, suppress_and_return_failures = false)
-				# nop
+				return true
 			end
 			
       def recipes(script)
